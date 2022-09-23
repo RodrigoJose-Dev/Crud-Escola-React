@@ -1,27 +1,29 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 import Home from "./components/Home";
 import Students from "./components/Students";
 import About from "./components/About";
 
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
     return (
         <div className="App">
             <h1>Cadastro de ALunos</h1>
             <BrowserRouter>
-                <ul>
-                    <li>
-                        <Link to="/">Página Inicial</Link>
-                    </li>
-                    <li>
-                        <Link to="/alunos">Cadastro de Alunos</Link>
-                    </li>
-                    <li>
-                        <Link to="/sobre">Sobre</Link>
-                    </li>
-                </ul>
+                <Nav variant="tabs">
+                    <Nav.Link as={Link} to="/">
+                        Página Inicial
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/alunos">
+                        Cadastro de Alunos
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/sobre">
+                        Sobre
+                    </Nav.Link>
+                </Nav>
 
                 <Routes>
                     <Route path="/" index element={<Home />}></Route>
