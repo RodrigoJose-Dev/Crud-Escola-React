@@ -11,14 +11,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
     return (
         <div className="App">
-            <h1>Cadastro de ALunos</h1>
+            <h1>Portal Escola</h1>
             <BrowserRouter>
                 <Nav variant="tabs">
                     <Nav.Link as={Link} to="/">
                         Página Inicial
                     </Nav.Link>
                     <Nav.Link as={Link} to="/alunos">
-                        Cadastro de Alunos
+                        Alunos
                     </Nav.Link>
                     <Nav.Link as={Link} to="/sobre">
                         Sobre
