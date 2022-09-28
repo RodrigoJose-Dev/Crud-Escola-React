@@ -6,9 +6,14 @@
       "email": "thiagoalmeida@provedor.com"
     },
     {
+      "id": 2,
       "name": "Carlos Silva Almeida",
-      "email": "carlossilva@provedor",
-      "id": 2
+      "email": "carlossilva@provedor"
+    },
+    {
+      "name": "Thais Amoedo Nascimento",
+      "email": "thais@provedor.com",
+      "id": 3
     }
   ]
 }

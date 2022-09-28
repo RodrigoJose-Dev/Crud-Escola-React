@@ -3,7 +3,7 @@ import { Form, Table, Button } from "react-bootstrap";
 
 const Students = () => {
     const [students, setStudents] = useState([]);
-    const [id, setId] = useState("");
+    const [id, setId] = useState(0);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
@@ -114,6 +114,10 @@ const Students = () => {
         }
     };
 
+    const onResetHandler = () => {
+        setId(0), setName(""), setEmail("");
+    };
+
     return (
         <>
             <>
@@ -147,11 +151,19 @@ const Students = () => {
                     </Form.Group>
 
                     <Button
-                        variant="primary"
+                        variant="success"
                         type="button"
                         onClick={onSubmitHandler}
                     >
                         Cadastrar
+                    </Button>
+
+                    <Button
+                        variant="primary"
+                        type="button"
+                        onClick={onResetHandler}
+                    >
+                        Novo
                     </Button>
                 </Form>
                 <br />
