@@ -53,6 +53,21 @@ const Students = () => {
             .catch((err) => console.log(err));
     };
 
+    const updateStudent = (student) => {
+        fetch(`http://localhost:3000/students/${student.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(student),
+        })
+            .then((resp) => resp.json())
+            .then(() => {
+                searchStudent();
+            })
+            .catch((err) => console.log(err));
+    };
+
     //carregar dados
     const loadData = (id) => {
         fetch(`http://localhost:3000/students/${id}`, {
@@ -78,13 +93,25 @@ const Students = () => {
         setEmail(e.target.value);
     };
 
+    //cadastra um aluno novo caso ele não exista, ou atualiza um aluno
+    //caso ele já exista
     const onSubmitHandler = () => {
-        const student = {
-            name: name,
-            email: email,
-        };
+        if (id == 0) {
+            const student = {
+                name: name,
+                email: email,
+            };
 
-        registerStudent(student);
+            registerStudent(student);
+        } else {
+            const student = {
+                id: id,
+                name: name,
+                email: email,
+            };
+
+            updateStudent(student);
+        }
     };
 
     return (
