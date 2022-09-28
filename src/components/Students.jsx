@@ -3,6 +3,7 @@ import { Form, Table, Button } from "react-bootstrap";
 
 const Students = () => {
     const [students, setStudents] = useState([]);
+    const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
@@ -16,7 +17,8 @@ const Students = () => {
             .then((resp) => resp.json())
             .then((date) => {
                 setStudents(date);
-            });
+            })
+            .catch((err) => console.log(err));
     };
 
     //deletar estudante
@@ -51,6 +53,23 @@ const Students = () => {
             .catch((err) => console.log(err));
     };
 
+    //carregar dados
+    const loadData = (id) => {
+        fetch(`http://localhost:3000/students/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((resp) => resp.json())
+            .then((data) => {
+                setId(data.id);
+                setName(data.name);
+                setEmail(data.email);
+            })
+            .catch((err) => console.log(err));
+    };
+
     const onNameHandler = (e) => {
         setName(e.target.value);
     };
@@ -72,7 +91,12 @@ const Students = () => {
         <>
             <>
                 <Form>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Group className="mb-3">
+                        <Form.Label>Id</Form.Label>
+                        <Form.Control type="text" value={id} readOnly={true} />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
                         <Form.Label>Nome</Form.Label>
                         <Form.Control
                             type="text"
@@ -121,7 +145,14 @@ const Students = () => {
                                     <td>{student.name}</td>
                                     <td>{student.email}</td>
                                     <td>
-                                        Atualizar{" "}
+                                        <Button
+                                            variant="primary"
+                                            onClick={() => {
+                                                loadData(student.id);
+                                            }}
+                                        >
+                                            Editar
+                                        </Button>
                                         <Button
                                             variant="danger"
                                             onClick={() => {
