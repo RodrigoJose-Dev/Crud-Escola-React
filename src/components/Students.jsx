@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Form, Table, Button } from "react-bootstrap";
+import { Modal, Form, Table, Button } from "react-bootstrap";
 
 const Students = () => {
     const [students, setStudents] = useState([]);
     const [id, setId] = useState(0);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [modal, setModal] = useState(false);
 
     useEffect(() => {
         searchStudent();
@@ -53,6 +54,7 @@ const Students = () => {
             .catch((err) => console.log(err));
     };
 
+    //atualizar dados
     const updateStudent = (student) => {
         fetch(`http://localhost:3000/students/${student.id}`, {
             method: "PUT",
@@ -82,6 +84,7 @@ const Students = () => {
                 setName(data.name);
                 setEmail(data.email);
             })
+            .then(openModal())
             .catch((err) => console.log(err));
     };
 
@@ -112,63 +115,90 @@ const Students = () => {
 
             updateStudent(student);
         }
+
+        closeModal();
     };
 
+    //limpa o formulário
     const onResetHandler = () => {
         setId(0), setName(""), setEmail("");
+
+        openModal();
+    };
+
+    //abrir modal
+    const openModal = () => {
+        setModal(true);
+    };
+
+    //fechar modal
+    const closeModal = () => {
+        setModal(false);
     };
 
     return (
         <>
             <>
-                <Form>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Id</Form.Label>
-                        <Form.Control type="text" value={id} readOnly={true} />
-                    </Form.Group>
+                <Modal show={modal} onHide={closeModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Dados do Aluno</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group className="mb-3">
+                                <Form.Label>RA</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    value={id}
+                                    readOnly={true}
+                                />
+                            </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Nome</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Digite o nome do aluno"
-                            value={name}
-                            onChange={onNameHandler}
-                        />
-                    </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Nome</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Digite o nome do aluno"
+                                    value={name}
+                                    onChange={onNameHandler}
+                                />
+                            </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>E-mail</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Digite o e-mail do aluno"
-                            value={email}
-                            onChange={onEmailHandler}
-                        />
-                        <Form.Text className="text-muted">
-                            Utilize o melhor e-mail do aluno.
-                        </Form.Text>
-                    </Form.Group>
-
-                    <Button
-                        variant="success"
-                        type="button"
-                        onClick={onSubmitHandler}
-                    >
-                        Cadastrar
-                    </Button>
-
-                    <Button
-                        variant="primary"
-                        type="button"
-                        onClick={onResetHandler}
-                    >
-                        Novo
-                    </Button>
-                </Form>
-                <br />
+                            <Form.Group
+                                className="mb-3"
+                                controlId="formBasicEmail"
+                            >
+                                <Form.Label>E-mail</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Digite o e-mail do aluno"
+                                    value={email}
+                                    onChange={onEmailHandler}
+                                />
+                                <Form.Text className="text-muted">
+                                    Utilize o melhor e-mail do aluno.
+                                </Form.Text>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={closeModal}>
+                            Fechar
+                        </Button>
+                        <Button variant="success" onClick={onSubmitHandler}>
+                            Salvar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </>
             <>
+                <Button
+                    variant="primary"
+                    type="button"
+                    onClick={onResetHandler}
+                >
+                    Novo
+                </Button>
                 <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
